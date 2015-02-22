@@ -17,6 +17,7 @@ def null_callback():  # pragma: no cover
 
 
 def wrap_func(func):
+    """wrap in a coroutine"""
     if func is None:
         func = null_callback
     if not asyncio.iscoroutinefunction(func):
@@ -44,26 +45,31 @@ class Cron(object):
         self.handle = self.future = self.croniter = None
 
     def initialize(self):
+        """initialize croniter"""
         if not self.croniter:
             self.time = time.time()
             self.loop_time = self.loop.time()
             self.croniter = croniter(self.spec, start_time=self.time)
 
     def get_next(self):
+        """return next iteration related to loop time"""
         return self.loop_time + (self.croniter.get_next(float) - self.time)
 
     def start(self):
+        """start"""
         self.stop()
         self.initialize()
         self.handle = self.loop.call_at(self.get_next(), self.call_next)
 
     def stop(self):
+        """stop"""
         if self.handle:
             self.handle.cancel()
         self.handle = None
         self.croniter = None
 
     def call_next(self):
+        """scheduler"""
         if self.handle:
             self.handle.cancel()
         next_time = self.get_next()
@@ -71,6 +77,7 @@ class Cron(object):
         self.call_func()
 
     def call_func(self, *args, **kwargs):
+        """call. take care of exceptions"""
         task = asyncio.gather(self.cron(*args, **kwargs),
                               loop=self.loop,
                               return_exceptions=True)
@@ -90,12 +97,14 @@ class Cron(object):
 
     @asyncio.coroutine
     def next(self, *args):
+        """yield from .next()"""
         self.initialize()
         self.future = asyncio.Future(loop=self.loop)
         self.handle = self.loop.call_at(self.get_next(), self.call_func, *args)
         return self.future
 
     def __call__(self, func):
+        """used as a decorator"""
         self.func = self.cron = func
         self.cron = wrap_func(func)
         if self.auto_start:
