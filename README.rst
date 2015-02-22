@@ -9,13 +9,10 @@ aiocron - Crontabs for asyncio
 .. image:: https://pypip.in/d/aiocron/badge.png
    :target: https://crate.io/packages/aiocron/
 
-Source: https://github.com/gawel/aiocron/
-
-
 Usage
 =====
 
-aiocron provide a decorator to run function at time::
+``aiocron`` provide a decorator to run function at time::
 
     >>> @aiocron.crontab('1 9 * * * *')
     ... @asyncio.coroutine::
@@ -32,7 +29,7 @@ You can also use it as an object::
     >>> attime.start()
     >>> asyncio.get_event_loop().run_forever()
 
-Your function still be available at `attime.func`
+Your function still be available at ``attime.func``
 
 You can also yield from a crontab. In this case, your coroutine can accept
 arguments::
@@ -54,3 +51,6 @@ arguments::
 
 Notice that unlike standard unix crontab you can specify seconds at the 6th
 position.
+
+``aiocron`` use `croniter <https://pypi.python.org/pypi/croniter>`_. Refer to
+it's documentation to know more about crontab format.
