@@ -1,0 +1,17 @@
+[run]
+omit =
+    */docs*
+    */tests*
+    */examples*
+    */lib_pypy*
+    */lib/python*
+    */lib-python*
+    */site-packages*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    def parse_args
