@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from aiocron import asyncio
 from aiocron import crontab
+from aiocron import Cron
 import pytest
 
 
@@ -52,14 +53,28 @@ def test_raise():
 def test_next():
     loop = asyncio.new_event_loop()
 
-    @crontab('* * * * * *', loop=loop)
     def t():
         return 1
+
+    t = crontab('* * * * * *', func=t, loop=loop)
 
     future = asyncio.async(t.next(), loop=loop)
 
     loop.run_until_complete(future)
     assert future.result() == 1
+
+
+def test_null_callback():
+    loop = asyncio.new_event_loop()
+
+    t = crontab('* * * * * *', loop=loop)
+
+    assert t.handle is None  # not started
+
+    future = asyncio.async(t.next(4), loop=loop)
+
+    loop.run_until_complete(future)
+    assert future.result() == (4,)
 
 
 def test_next_raise():

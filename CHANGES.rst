@@ -1,7 +1,7 @@
 0.2 (unreleased)
 ================
 
-- Nothing changed yet.
+Allow to use crontab as a timer
 
 
 0.1 (2015-02-22)

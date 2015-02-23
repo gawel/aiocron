@@ -49,6 +49,15 @@ arguments::
     ...         print(res)
     >>> asyncio.get_event_loop().run_forever()
 
+Finally you can use it as a «sleep» coroutine. The following will wait until
+next hour::
+
+    >>> yield from crontab('0 * * * *').next()
+
+If you don't like the decorator magic you can set the function by yourself::
+
+    >>> cron = crontab('0 * * * *', func=yourcoroutine, start=False)
+
 Notice that unlike standard unix crontab you can specify seconds at the 6th
 position.
 
