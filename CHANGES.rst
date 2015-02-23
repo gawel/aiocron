@@ -1,4 +1,4 @@
-0.2 (unreleased)
+0.2 (2015-02-23)
 ================
 
 Allow to use crontab as a timer
