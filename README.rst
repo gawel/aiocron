@@ -15,7 +15,7 @@ Usage
 ``aiocron`` provide a decorator to run function at time::
 
     >>> @aiocron.crontab('*/30 * * * *')
-    ... @asyncio.coroutine::
+    ... @asyncio.coroutine
     ... def attime():
     ...     print('run')
     >>> asyncio.get_event_loop().run_forever()
@@ -23,7 +23,7 @@ Usage
 You can also use it as an object::
 
     >>> @aiocron.crontab('1 9 * * 1-5', start=False)
-    ... @asyncio.coroutine::
+    ... @asyncio.coroutine
     ... def attime():
     ...     print('run')
     >>> attime.start()
@@ -35,7 +35,7 @@ You can also yield from a crontab. In this case, your coroutine can accept
 arguments::
 
     >>> @aiocron.crontab('0 9,10 * * * mon,fri', start=False)
-    ... @asyncio.coroutine::
+    ... @asyncio.coroutine
     ... def attime(i):
     ...     print('run %i' % i)
 
