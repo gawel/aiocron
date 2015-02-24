@@ -32,7 +32,8 @@ cron = CronThread()
 @cron.crontab('* * * * * *')
 @asyncio.coroutine
 def run():
-    print('lkjjk')
+    yield from asyncio.sleep(.1)
+    print('It works')
 
 asyncio.get_event_loop().run_forever()
 cron.stop()
