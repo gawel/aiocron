@@ -33,7 +33,7 @@ class Cron(object):
             loop = asyncio.get_event_loop()
         self.loop = loop
         if start and self.func is not null_callback:
-            self.start()
+            self.loop.call_soon_threadsafe(start)
 
     def start(self):
         """Start scheduling"""
@@ -99,7 +99,7 @@ class Cron(object):
         self.func = func
         self.cron = wrap_func(func)
         if self.auto_start:
-            self.start()
+            self.loop.call_soon_threadsafe(self.start)
         return self
 
     def __str__(self):
