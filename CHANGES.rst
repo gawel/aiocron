@@ -1,7 +1,7 @@
 0.3 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix installation faillure on py3
 
 
 0.2 (2015-02-23)
