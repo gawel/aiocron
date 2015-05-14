@@ -1,4 +1,4 @@
-0.3 (unreleased)
+0.3 (2015-05-14)
 ================
 
 - Fix installation faillure on py3
