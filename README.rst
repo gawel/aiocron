@@ -49,7 +49,7 @@ arguments::
     ...         print(res)
     >>> asyncio.get_event_loop().run_forever()
 
-Finally you can use it as a «sleep» coroutine. The following will wait until
+Finally you can use it as a sleep coroutine. The following will wait until
 next hour::
 
     >>> yield from crontab('0 * * * *').next()
