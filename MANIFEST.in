@@ -7,3 +7,4 @@ global-exclude *.pyc
 global-exclude __pycache__
 include .coveragerc
 recursive-include examples *.py
+exclude .installed.cfg
