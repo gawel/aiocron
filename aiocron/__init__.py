@@ -24,16 +24,14 @@ class Cron(object):
 
     def __init__(self, spec, func=None, start=False, uuid=None, loop=None):
         self.spec = spec
-        self.func = func or null_callback
+        self.func = func if func is not None else null_callback
         self.cron = wrap_func(self.func)
         self.auto_start = start
-        self.uuid = uuid or uuid4()
+        self.uuid = uuid if uuid is not None else uuid4()
         self.handle = self.future = self.croniter = None
-        if loop is None:  # pragma: no cover
-            loop = asyncio.get_event_loop()
-        self.loop = loop
+        self.loop = loop if loop is not None else asyncio.get_event_loop()
         if start and self.func is not null_callback:
-            self.loop.call_soon_threadsafe(start)
+            self.loop.call_soon_threadsafe(self.start)
 
     def start(self):
         """Start scheduling"""
