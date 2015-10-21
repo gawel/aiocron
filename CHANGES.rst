@@ -1,4 +1,4 @@
-0.4 (unreleased)
+0.4 (2015-10-21)
 ================
 
 -  Fix contstructor with func not None and minor changes
