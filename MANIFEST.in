@@ -5,3 +5,5 @@ graft tests
 include *.rst *.cfg *.ini
 global-exclude *.pyc
 global-exclude __pycache__
+include .coveragerc
+recursive-include examples *.py
