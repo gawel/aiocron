@@ -1,4 +1,4 @@
-0.5 (unreleased)
+0.5 (2016-03-31)
 ================
 
 - Fix: Initialize cron with a correct tzinfo
