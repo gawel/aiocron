@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from croniter.croniter import croniter
+from datetime import datetime
+import dateutil
 from uuid import uuid4
 import time
 try:
@@ -57,8 +59,9 @@ class Cron(object):
         """Initialize croniter and related times"""
         if self.croniter is None:
             self.time = time.time()
+            self.datetime = datetime.now(dateutil.tz.tzlocal())
             self.loop_time = self.loop.time()
-            self.croniter = croniter(self.spec, start_time=self.time)
+            self.croniter = croniter(self.spec, start_time=self.datetime)
 
     def get_next(self):
         """Return next iteration time related to loop time"""
