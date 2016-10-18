@@ -4,7 +4,7 @@ import sys
 from setuptools import setup
 from setuptools import find_packages
 
-version = '0.6'
+version = '0.7.dev0'
 
 install_requires = ['croniter']
 test_requires = ['coverage']
