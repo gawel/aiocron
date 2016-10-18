@@ -1,4 +1,4 @@
-0.6 (unreleased)
+0.6 (2016-10-18)
 ================
 
 - allow to use python -m aiocron
