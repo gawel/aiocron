@@ -1,7 +1,7 @@
 0.6 (unreleased)
 ================
 
-- Nothing changed yet.
+- allow to use python -m aiocron
 
 
 0.5 (2016-03-31)
