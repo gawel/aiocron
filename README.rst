@@ -4,9 +4,9 @@ aiocron - Crontabs for asyncio
 
 .. image:: https://travis-ci.org/gawel/aiocron.svg?branch=master
   :target: https://travis-ci.org/gawel/aiocron
-.. image:: https://img.shields.io/pypi/v/asyncio.svg
+.. image:: https://img.shields.io/pypi/v/aiocron.svg
   :target: https://pypi.python.org/pypi/aiocron
-.. image:: https://img.shields.io/pypi/dm/asyncio.svg
+.. image:: https://img.shields.io/pypi/dm/aiocron.svg
   :target: https://pypi.python.org/pypi/aiocron
 
 Usage

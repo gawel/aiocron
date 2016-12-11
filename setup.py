@@ -23,8 +23,9 @@ elif py_ver < (3, 4):
     install_requires.append('asyncio')
 
 
-def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+def read(name):
+    with open(os.path.join(os.path.dirname(__file__), name)) as f:
+        return f.read()
 
 
 setup(
@@ -33,11 +34,15 @@ setup(
     description="Crontabs for asyncio",
     long_description=read('README.rst'),
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Web Environment',
         'Intended Audience :: Developers',
+        'Operating System :: POSIX',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'License :: OSI Approved :: MIT License',
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     keywords='crontab cron asyncio',
     author='Gael Pasgrimaud',
