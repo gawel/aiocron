@@ -43,8 +43,6 @@ setup(
         'Programming Language :: Python :: 3.4',
         'License :: OSI Approved :: MIT License',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: WWW/HTTP :: Site Management',
     ],
     keywords='crontab cron asyncio',
     author='Gael Pasgrimaud',
