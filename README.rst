@@ -2,12 +2,12 @@
 aiocron - Crontabs for asyncio
 ================================================
 
-.. image:: https://travis-ci.org/gawel/aiocron.png?branch=master
+.. image:: https://travis-ci.org/gawel/aiocron.svg?branch=master
   :target: https://travis-ci.org/gawel/aiocron
-.. image:: https://pypip.in/v/aiocron/badge.png
-   :target: https://crate.io/packages/aiocron/
-.. image:: https://pypip.in/d/aiocron/badge.png
-   :target: https://crate.io/packages/aiocron/
+.. image:: https://img.shields.io/pypi/v/asyncio.svg
+  :target: https://pypi.python.org/pypi/aiocron
+.. image:: https://img.shields.io/pypi/dm/asyncio.svg
+  :target: https://pypi.python.org/pypi/aiocron
 
 Usage
 =====
