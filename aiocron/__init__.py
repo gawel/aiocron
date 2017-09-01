@@ -33,7 +33,7 @@ class Cron(object):
         self.handle = self.future = self.croniter = None
         self.loop = loop if loop is not None else asyncio.get_event_loop()
         if start and self.func is not null_callback:
-            self.loop.call_soon_threadsafe(self.start)
+            self.handle = self.loop.call_soon_threadsafe(self.start)
 
     def start(self):
         """Start scheduling"""
@@ -43,7 +43,7 @@ class Cron(object):
 
     def stop(self):
         """Stop scheduling"""
-        if self.handle:
+        if self.handle is not None:
             self.handle.cancel()
         self.handle = self.future = self.croniter = None
 
