@@ -1,4 +1,4 @@
-0.7 (unreleased)
+0.7 (2017-09-01)
 ================
 
 - fixed issue 6: stop before first run wont work
