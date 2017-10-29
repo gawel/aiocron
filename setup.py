@@ -6,7 +6,7 @@ from setuptools import find_packages
 
 version = '1.1.dev0'
 
-install_requires = ['croniter']
+install_requires = ['croniter', 'tzlocal']
 test_requires = ['coverage']
 
 py_ver = sys.version_info[:2]
