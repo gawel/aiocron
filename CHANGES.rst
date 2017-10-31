@@ -1,4 +1,4 @@
-1.0 (unreleased)
+1.0 (2017-10-31)
 ================
 
 - First stable release
