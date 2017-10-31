@@ -4,7 +4,7 @@ import sys
 from setuptools import setup
 from setuptools import find_packages
 
-version = '0.8.dev0'
+version = '1.0.dev0'
 
 install_requires = ['croniter']
 test_requires = ['coverage']
@@ -41,6 +41,8 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'License :: OSI Approved :: MIT License',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],

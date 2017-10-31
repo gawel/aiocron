@@ -1,7 +1,9 @@
-0.8 (unreleased)
+1.0 (unreleased)
 ================
 
-- Nothing changed yet.
+- First stable release
+
+- Update classifiers to show it support latest py versions
 
 
 0.7 (2017-09-01)
