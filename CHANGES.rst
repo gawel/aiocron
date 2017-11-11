@@ -1,4 +1,4 @@
-1.1 (unreleased)
+1.1 (2017-11-11)
 ================
 
 - Fixed #7: Incorrect cron calculation in croniter when DST changed.
