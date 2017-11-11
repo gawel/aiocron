@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import time
+import datetime
+
 from aiocron import asyncio
 from aiocron import crontab
 from aiocron import Cron
@@ -116,3 +119,28 @@ def test_coro_next_raise():
 
     with pytest.raises(CustomError):
         loop.run_until_complete(future)
+
+
+def test_next_dst(monkeypatch):
+    class mydatetime:
+        @classmethod
+        def now(cls, tzinfo=None):
+            return datetime.datetime(2017, 10, 29, 2, 58, 58, tzinfo=tzinfo)
+
+    monkeypatch.setattr('aiocron.datetime', mydatetime)
+    monkeypatch.setattr('dateutil.tz.time.timezone', -3600)
+    monkeypatch.setattr('dateutil.tz.time.altzone', -7200)
+    monkeypatch.setattr('dateutil.tz.time.daylight', 1)
+    monkeypatch.setattr('dateutil.tz.time.tzname', ('CET', 'CEST'))
+
+    loop = asyncio.new_event_loop()
+    t = crontab('* * * * *', loop=loop)
+    t.initialize()
+
+    # last hit in DST
+    a = t.get_next()
+    time.sleep(3)
+    # first hit after DST
+    b = t.get_next()
+
+    assert b - a == 60
