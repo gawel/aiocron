@@ -4,7 +4,7 @@ import sys
 from setuptools import setup
 from setuptools import find_packages
 
-version = '1.1'
+version = '1.2.dev0'
 
 install_requires = ['croniter', 'tzlocal']
 test_requires = ['coverage']
