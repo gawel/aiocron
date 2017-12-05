@@ -1,4 +1,4 @@
-1.2 (unreleased)
+1.2 (2017-12-05)
 ================
 
 - Remove print() statement
