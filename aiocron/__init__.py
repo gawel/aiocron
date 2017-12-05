@@ -37,7 +37,6 @@ class Cron(object):
 
     def start(self):
         """Start scheduling"""
-        print('start')
         self.stop()
         self.initialize()
         self.handle = self.loop.call_at(self.get_next(), self.call_next)

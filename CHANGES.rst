@@ -1,7 +1,7 @@
 1.2 (unreleased)
 ================
 
-- Nothing changed yet.
+- Remove print() statement
 
 
 1.1 (2017-11-11)
