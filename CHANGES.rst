@@ -1,7 +1,7 @@
 1.3 (unreleased)
 ================
 
-- Nothing changed yet.
+- Drop py3.3 support
 
 
 1.2 (2017-12-05)
