@@ -4,6 +4,7 @@ from datetime import datetime
 from tzlocal import get_localzone
 from uuid import uuid4
 import time
+import functools
 try:
     import asyncio
 except ImportError:  # pragma: no cover
@@ -24,9 +25,12 @@ def wrap_func(func):
 
 class Cron(object):
 
-    def __init__(self, spec, func=None, start=False, uuid=None, loop=None):
+    def __init__(self, spec, func=None, args=(), start=False, uuid=None, loop=None):
         self.spec = spec
-        self.func = func if func is not None else null_callback
+        if func is not None:
+            self.func = func if not args else functools.partial(func, *args)
+        else:
+            self.func = null_callback
         self.cron = wrap_func(self.func)
         self.auto_start = start
         self.uuid = uuid if uuid is not None else uuid4()
@@ -110,5 +114,5 @@ class Cron(object):
         return '<Cron {0.spec} {0.func}>'.format(self)
 
 
-def crontab(spec, func=None, start=True, loop=None):
-    return Cron(spec, func=func, start=start, loop=loop)
+def crontab(spec, func=None, args=(), start=True, loop=None):
+    return Cron(spec, func=func, args=args, start=start, loop=loop)
