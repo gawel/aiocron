@@ -25,12 +25,13 @@ def wrap_func(func):
 
 class Cron(object):
 
-    def __init__(self, spec, func=None, args=(), start=False, uuid=None, loop=None):
+    def __init__(self, spec, func=None, args=(), start=False, uuid=None, loop=None, tz=None):
         self.spec = spec
         if func is not None:
             self.func = func if not args else functools.partial(func, *args)
         else:
             self.func = null_callback
+        self.tz = get_localzone() if tz is None else tz
         self.cron = wrap_func(self.func)
         self.auto_start = start
         self.uuid = uuid if uuid is not None else uuid4()
@@ -63,7 +64,7 @@ class Cron(object):
         """Initialize croniter and related times"""
         if self.croniter is None:
             self.time = time.time()
-            self.datetime = datetime.now(get_localzone())
+            self.datetime = datetime.now(self.tz)
             self.loop_time = self.loop.time()
             self.croniter = croniter(self.spec, start_time=self.datetime)
 
@@ -114,5 +115,5 @@ class Cron(object):
         return '<Cron {0.spec} {0.func}>'.format(self)
 
 
-def crontab(spec, func=None, args=(), start=True, loop=None):
-    return Cron(spec, func=func, args=args, start=start, loop=loop)
+def crontab(spec, func=None, args=(), start=True, loop=None, tz=None):
+    return Cron(spec, func=func, args=args, start=start, loop=loop, tz=tz)
