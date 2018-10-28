@@ -2,7 +2,7 @@ graft docs
 prune docs/_build
 graft aiocron
 graft tests
-include *.rst *.cfg *.ini LICENSE
+include Pipfile Pipfile.lock *.rst *.cfg *.ini LICENSE
 global-exclude *.pyc
 global-exclude __pycache__
 include .coveragerc
