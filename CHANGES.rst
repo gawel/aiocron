@@ -1,4 +1,4 @@
-1.3 (unreleased)
+1.3 (2018-10-28)
 ================
 
 - Now accepts TZ for croniter
