@@ -61,7 +61,7 @@ def test_next():
 
     t = crontab('* * * * * *', func=t, loop=loop)
 
-    future = asyncio.async(t.next(), loop=loop)
+    future = asyncio.ensure_future(t.next(), loop=loop)
 
     loop.run_until_complete(future)
     assert future.result() == 1
@@ -74,7 +74,7 @@ def test_null_callback():
 
     assert t.handle is None  # not started
 
-    future = asyncio.async(t.next(4), loop=loop)
+    future = asyncio.ensure_future(t.next(4), loop=loop)
 
     loop.run_until_complete(future)
     assert future.result() == (4,)
@@ -87,7 +87,7 @@ def test_next_raise():
     def t():
         raise CustomError()
 
-    future = asyncio.async(t.next(), loop=loop)
+    future = asyncio.ensure_future(t.next(), loop=loop)
 
     with pytest.raises(CustomError):
         loop.run_until_complete(future)
@@ -101,7 +101,7 @@ def test_coro_next():
     def t():
         return 1
 
-    future = asyncio.async(t.next(), loop=loop)
+    future = asyncio.ensure_future(t.next(), loop=loop)
 
     loop.run_until_complete(future)
     assert future.result() == 1
@@ -115,7 +115,7 @@ def test_coro_next_raise():
     def t():
         raise CustomError()
 
-    future = asyncio.async(t.next(), loop=loop)
+    future = asyncio.ensure_future(t.next(), loop=loop)
 
     with pytest.raises(CustomError):
         loop.run_until_complete(future)
