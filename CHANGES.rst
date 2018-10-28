@@ -1,6 +1,10 @@
 1.3 (unreleased)
 ================
 
+- Now accepts TZ for croniter
+
+- Now accepts arguments for func
+
 - Drop py3.3 support
 
 
