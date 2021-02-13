@@ -1,7 +1,7 @@
 1.4 (unreleased)
 ================
 
-- Nothing changed yet.
+- use async/await syntax in README
 
 
 1.3 (2018-10-28)
