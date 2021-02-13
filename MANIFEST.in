@@ -1,5 +1,6 @@
 graft docs
 prune docs/_build
+prune .github/
 graft aiocron
 graft tests
 include Pipfile Pipfile.lock *.rst *.cfg *.ini LICENSE
