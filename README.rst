@@ -65,12 +65,3 @@ position.
 
 ``aiocron`` use `croniter <https://pypi.python.org/pypi/croniter>`_. Refer to
 it's documentation to know more about crontab format.
-
-I've spent hours writing this software, with love.
-Please consider tiping if you like it:
-
-BTC: 1PruQAwByDndFZ7vTeJhyWefAghaZx9RZg
-
-ETH: 0xb6418036d8E06c60C4D91c17d72Df6e1e5b15CE6
-
-LTC: LY6CdZcDbxnBX9GFBJ45TqVj8NykBBqsmT
