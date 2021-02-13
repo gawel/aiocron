@@ -1,4 +1,4 @@
-1.4 (unreleased)
+1.4 (2021-02-13)
 ================
 
 - use async/await syntax in README
