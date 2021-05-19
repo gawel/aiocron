@@ -1,13 +1,15 @@
 1.5 (unreleased)
 ================
 
-- Nothing changed yet.
+- Use async/await syntax everywhere
+
+- Drop py27 and py3.4 support
 
 
 1.4 (2021-02-13)
 ================
 
-- use async/await syntax in README
+- Use async/await syntax in README
 
 
 1.3 (2018-10-28)

@@ -5,27 +5,27 @@ from tzlocal import get_localzone
 from uuid import uuid4
 import time
 import functools
-try:
-    import asyncio
-except ImportError:  # pragma: no cover
-    import trollius as asyncio  # NOQA
+import asyncio
 
 
-@asyncio.coroutine
-def null_callback(*args):
+async def null_callback(*args):
     return args
 
 
 def wrap_func(func):
     """wrap in a coroutine"""
     if not asyncio.iscoroutinefunction(func):
-        return asyncio.coroutine(func)
+        @functools.wraps(func)
+        async def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
     return func
 
 
 class Cron(object):
 
-    def __init__(self, spec, func=None, args=(), start=False, uuid=None, loop=None, tz=None):
+    def __init__(self, spec, func=None, args=(), start=False, uuid=None,
+                 loop=None, tz=None):
         self.spec = spec
         if func is not None:
             self.func = func if not args else functools.partial(func, *args)
@@ -52,13 +52,12 @@ class Cron(object):
             self.handle.cancel()
         self.handle = self.future = self.croniter = None
 
-    @asyncio.coroutine
-    def next(self, *args):
+    async def next(self, *args):
         """yield from .next()"""
         self.initialize()
         self.future = asyncio.Future(loop=self.loop)
         self.handle = self.loop.call_at(self.get_next(), self.call_func, *args)
-        return self.future
+        return (await self.future)
 
     def initialize(self):
         """Initialize croniter and related times"""

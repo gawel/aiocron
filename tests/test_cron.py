@@ -4,7 +4,6 @@ import datetime
 
 from aiocron import asyncio
 from aiocron import crontab
-from aiocron import Cron
 import pytest
 
 
@@ -97,8 +96,7 @@ def test_coro_next():
     loop = asyncio.new_event_loop()
 
     @crontab('* * * * * *', loop=loop)
-    @asyncio.coroutine
-    def t():
+    async def t():
         return 1
 
     future = asyncio.ensure_future(t.next(), loop=loop)
@@ -111,8 +109,7 @@ def test_coro_next_raise():
     loop = asyncio.new_event_loop()
 
     @crontab('* * * * * *', loop=loop)
-    @asyncio.coroutine
-    def t():
+    async def t():
         raise CustomError()
 
     future = asyncio.ensure_future(t.next(), loop=loop)

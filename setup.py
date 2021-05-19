@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
 from setuptools import setup
 from setuptools import find_packages
 
@@ -8,19 +7,6 @@ version = '1.5.dev0'
 
 install_requires = ['croniter', 'tzlocal']
 test_requires = ['coverage']
-
-py_ver = sys.version_info[:2]
-if py_ver < (3, 0):
-    install_requires.extend([
-        'trollius',
-        'futures',
-    ])
-    test_requires.extend(['mock'])
-elif py_ver < (3, 3):
-    install_requires.append('trollius')
-    test_requires.append('mock')
-elif py_ver < (3, 4):
-    install_requires.append('asyncio')
 
 
 def read(name):
