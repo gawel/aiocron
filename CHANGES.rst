@@ -1,4 +1,4 @@
-1.5 (unreleased)
+1.5 (2021-05-19)
 ================
 
 - Use async/await syntax everywhere
