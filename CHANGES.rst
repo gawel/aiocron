@@ -1,7 +1,7 @@
 1.6 (unreleased)
 ================
 
-- Nothing changed yet.
+- Do not release py2 wheel
 
 
 1.5 (2021-05-19)
