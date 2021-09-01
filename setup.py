@@ -3,7 +3,7 @@ import os
 from setuptools import setup
 from setuptools import find_packages
 
-version = '1.7'
+version = '1.8.dev0'
 
 install_requires = ['croniter', 'tzlocal']
 test_requires = ['coverage']
