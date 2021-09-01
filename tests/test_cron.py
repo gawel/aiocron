@@ -119,10 +119,16 @@ def test_coro_next_raise():
 
 
 def test_next_dst(monkeypatch):
+
+    now = datetime.datetime.now()
+
     class mydatetime:
         @classmethod
         def now(cls, tzinfo=None):
-            return datetime.datetime(2017, 10, 29, 2, 58, 58, tzinfo=tzinfo)
+            return datetime.datetime(
+                now.year + 1, 10, 29, 2, 58, 58,
+                tzinfo=tzinfo
+            )
 
     monkeypatch.setattr('aiocron.datetime', mydatetime)
     monkeypatch.setattr('dateutil.tz.time.timezone', -3600)

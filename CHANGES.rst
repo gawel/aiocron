@@ -1,7 +1,7 @@
 1.7 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix: set result iif future is not done
 
 
 1.6 (2021-05-19)

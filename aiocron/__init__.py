@@ -93,8 +93,8 @@ class Cron(object):
         if self.future is not None:
             if isinstance(result, Exception):
                 self.future.set_exception(result)
-            else:
-                self.future.set_result(result)
+            elif not self.future.done():
+                    self.future.set_result(result)
             self.future = None
         elif isinstance(result, Exception):
             raise result
