@@ -87,8 +87,7 @@ class Cron(object):
     def call_func(self, *args, **kwargs):
         """Called. Take care of exceptions using gather"""
         """Check the version of python installed"""
-        if ((int(sys.version_info[0]) == 3 and int(sys.version_info[1]) >= 10)
-        or int(sys.version_info[0]) == 2):
+        if (sys.version_info[0:2] >= (3, 10)):
             asyncio.gather(
                 self.cron(*args, **kwargs),
                 return_exceptions=True
