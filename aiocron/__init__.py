@@ -6,6 +6,7 @@ from uuid import uuid4
 import time
 import functools
 import asyncio
+import sys
 
 
 async def null_callback(*args):
@@ -85,10 +86,17 @@ class Cron(object):
 
     def call_func(self, *args, **kwargs):
         """Called. Take care of exceptions using gather"""
-        asyncio.gather(
-            self.cron(*args, **kwargs),
-            loop=self.loop, return_exceptions=True
-            ).add_done_callback(self.set_result)
+        """Check the version of python installed"""
+        if (sys.version_info[0:2] >= (3, 10)):
+            asyncio.gather(
+                self.cron(*args, **kwargs),
+                return_exceptions=True
+                ).add_done_callback(self.set_result)
+        else:
+            asyncio.gather(
+                self.cron(*args, **kwargs),
+                loop=self.loop, return_exceptions=True
+                ).add_done_callback(self.set_result)
 
     def set_result(self, result):
         """Set future's result if needed (can be an exception).
