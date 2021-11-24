@@ -1,7 +1,9 @@
 1.8 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix coroutine detection on partials.
+
+- Fix a bug with python3.10. gather no longer accept a loop
 
 
 1.7 (2021-09-01)
