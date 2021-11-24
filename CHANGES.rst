@@ -1,4 +1,4 @@
-1.8 (unreleased)
+1.8 (2021-11-24)
 ================
 
 - Fix coroutine detection on partials.
