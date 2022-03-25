@@ -7,6 +7,7 @@ import time
 import functools
 import asyncio
 import sys
+import inspect
 
 
 async def null_callback(*args):
@@ -19,12 +20,15 @@ def wrap_func(func):
         _func = func.func
     else:
         _func = func
-    if not asyncio.iscoroutinefunction(_func):
-        @functools.wraps(func)
-        async def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
-        return wrapper
-    return func
+
+    @functools.wraps(func)
+    async def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        if inspect.isawaitable(result):
+            result = await result
+        return result
+
+    return wrapper
 
 
 class Cron(object):
