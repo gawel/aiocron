@@ -34,7 +34,7 @@ def wrap_func(func):
 class Cron(object):
 
     def __init__(self, spec, func=None, args=(), start=False, uuid=None,
-                 loop=None, tz=None):
+                 loop=None, tz=None, croniter_kwargs=None):
         self.spec = spec
         if func is not None:
             self.func = func if not args else functools.partial(func, *args)
@@ -48,6 +48,7 @@ class Cron(object):
         self.loop = loop if loop is not None else asyncio.get_event_loop()
         if start and self.func is not null_callback:
             self.handle = self.loop.call_soon_threadsafe(self.start)
+        self.croniter_kwargs = croniter_kwargs if croniter_kwargs is not None else {}
 
     def start(self):
         """Start scheduling"""
@@ -74,7 +75,7 @@ class Cron(object):
             self.time = time.time()
             self.datetime = datetime.now(self.tz)
             self.loop_time = self.loop.time()
-            self.croniter = croniter(self.spec, start_time=self.datetime)
+            self.croniter = croniter(self.spec, start_time=self.datetime, **self.croniter_kwargs)
 
     def get_next(self):
         """Return next iteration time related to loop time"""
