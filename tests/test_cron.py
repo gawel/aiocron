@@ -126,7 +126,7 @@ def test_next_dst(monkeypatch):
         @classmethod
         def now(cls, tzinfo=None):
             return datetime.datetime(
-                now.year + 1, 10, 29, 2, 58, 58,
+                2018, 10, 29, 2, 58, 58,
                 tzinfo=tzinfo
             )
 
@@ -146,4 +146,4 @@ def test_next_dst(monkeypatch):
     # first hit after DST
     b = t.get_next()
 
-    assert b - a == 60
+    assert int(b - a) == 60
