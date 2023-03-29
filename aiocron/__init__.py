@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from croniter.croniter import croniter
 from datetime import datetime
+from functools import wraps, partial
 from tzlocal import get_localzone
 from uuid import uuid4
 import time
-import functools
 import asyncio
 import sys
 import inspect
@@ -16,7 +16,7 @@ async def null_callback(*args):
 
 def wrap_func(func):
     """wrap in a coroutine"""
-    @functools.wraps(func)
+    @wraps(func)
     async def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
         if inspect.isawaitable(result):
@@ -28,11 +28,12 @@ def wrap_func(func):
 
 class Cron(object):
 
-    def __init__(self, spec, func=None, args=(), start=False, uuid=None,
-                 loop=None, tz=None, croniter_kwargs=None):
+    def __init__(self, spec, func=None, args=(), kwargs=None, start=False,
+                 uuid=None, loop=None, tz=None, croniter_kwargs=None):
         self.spec = spec
         if func is not None:
-            self.func = func if not args else functools.partial(func, *args)
+            kwargs = kwargs or {}
+            self.func = func if not (args or kwargs) else partial(func, *args, **kwargs)
         else:
             self.func = null_callback
         self.tz = get_localzone() if tz is None else tz
@@ -110,7 +111,7 @@ class Cron(object):
             if isinstance(result, Exception):
                 self.future.set_exception(result)
             elif not self.future.done():
-                    self.future.set_result(result)
+                self.future.set_result(result)
             self.future = None
         elif isinstance(result, Exception):
             raise result
@@ -130,5 +131,5 @@ class Cron(object):
         return '<Cron {0.spec} {0.func}>'.format(self)
 
 
-def crontab(spec, func=None, args=(), start=True, loop=None, tz=None):
-    return Cron(spec, func=func, args=args, start=start, loop=loop, tz=tz)
+def crontab(spec, func=None, args=(), kwargs=None, start=True, loop=None, tz=None):
+    return Cron(spec, func=func, args=args, kwargs=kwargs, start=start, loop=loop, tz=tz)
