@@ -14,11 +14,11 @@ class CustomError(Exception):
 def test_str():
     loop = asyncio.new_event_loop()
 
-    @crontab('* * * * * *', loop=loop)
+    @crontab("* * * * * *", loop=loop)
     def t():
         pass
 
-    assert '* * * * *' in str(t)
+    assert "* * * * *" in str(t)
 
 
 def test_cron():
@@ -26,7 +26,7 @@ def test_cron():
 
     future = asyncio.Future(loop=loop)
 
-    @crontab('* * * * * *', start=False, loop=loop)
+    @crontab("* * * * * *", start=False, loop=loop)
     def t():
         future.set_result(1)
 
@@ -41,7 +41,7 @@ def test_raise():
 
     future = asyncio.Future(loop=loop)
 
-    @crontab('* * * * * *', start=False, loop=loop)
+    @crontab("* * * * * *", start=False, loop=loop)
     def t():
         loop.call_later(1, future.set_result, 1)
         raise ValueError()
@@ -58,7 +58,7 @@ def test_next():
     def t():
         return 1
 
-    t = crontab('* * * * * *', func=t, loop=loop)
+    t = crontab("* * * * * *", func=t, loop=loop)
 
     future = asyncio.ensure_future(t.next(), loop=loop)
 
@@ -69,7 +69,7 @@ def test_next():
 def test_null_callback():
     loop = asyncio.new_event_loop()
 
-    t = crontab('* * * * * *', loop=loop)
+    t = crontab("* * * * * *", loop=loop)
 
     assert t.handle is None  # not started
 
@@ -82,7 +82,7 @@ def test_null_callback():
 def test_next_raise():
     loop = asyncio.new_event_loop()
 
-    @crontab('* * * * * *', loop=loop)
+    @crontab("* * * * * *", loop=loop)
     def t():
         raise CustomError()
 
@@ -95,7 +95,7 @@ def test_next_raise():
 def test_coro_next():
     loop = asyncio.new_event_loop()
 
-    @crontab('* * * * * *', loop=loop)
+    @crontab("* * * * * *", loop=loop)
     async def t():
         return 1
 
@@ -108,7 +108,7 @@ def test_coro_next():
 def test_coro_next_raise():
     loop = asyncio.new_event_loop()
 
-    @crontab('* * * * * *', loop=loop)
+    @crontab("* * * * * *", loop=loop)
     async def t():
         raise CustomError()
 
@@ -119,25 +119,21 @@ def test_coro_next_raise():
 
 
 def test_next_dst(monkeypatch):
-
     now = datetime.datetime.now()
 
     class mydatetime:
         @classmethod
         def now(cls, tzinfo=None):
-            return datetime.datetime(
-                2018, 10, 29, 2, 58, 58,
-                tzinfo=tzinfo
-            )
+            return datetime.datetime(2018, 10, 29, 2, 58, 58, tzinfo=tzinfo)
 
-    monkeypatch.setattr('aiocron.datetime', mydatetime)
-    monkeypatch.setattr('dateutil.tz.time.timezone', -3600)
-    monkeypatch.setattr('dateutil.tz.time.altzone', -7200)
-    monkeypatch.setattr('dateutil.tz.time.daylight', 1)
-    monkeypatch.setattr('dateutil.tz.time.tzname', ('CET', 'CEST'))
+    monkeypatch.setattr("aiocron.datetime", mydatetime)
+    monkeypatch.setattr("dateutil.tz.time.timezone", -3600)
+    monkeypatch.setattr("dateutil.tz.time.altzone", -7200)
+    monkeypatch.setattr("dateutil.tz.time.daylight", 1)
+    monkeypatch.setattr("dateutil.tz.time.tzname", ("CET", "CEST"))
 
     loop = asyncio.new_event_loop()
-    t = crontab('* * * * *', loop=loop)
+    t = crontab("* * * * *", loop=loop)
     t.initialize()
 
     # last hit in DST

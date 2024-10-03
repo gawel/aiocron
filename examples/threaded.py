@@ -6,11 +6,10 @@ import time
 
 
 class CronThread(threading.Thread):
-
     def __init__(self):
         super(CronThread, self).__init__()
         self.start()
-        time.sleep(.1)
+        time.sleep(0.1)
 
     def run(self):
         self.loop = asyncio.new_event_loop()
@@ -23,17 +22,19 @@ class CronThread(threading.Thread):
         self.join()
 
     def crontab(self, *args, **kwargs):
-        kwargs['loop'] = self.loop
+        kwargs["loop"] = self.loop
         return aiocron.crontab(*args, **kwargs)
+
 
 cron = CronThread()
 
 
-@cron.crontab('* * * * * *')
+@cron.crontab("* * * * * *")
 @asyncio.coroutine
 def run():
-    yield from asyncio.sleep(.1)
-    print('It works')
+    yield from asyncio.sleep(0.1)
+    print("It works")
+
 
 asyncio.get_event_loop().run_forever()
 cron.stop()
