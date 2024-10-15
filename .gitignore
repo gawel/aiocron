@@ -47,10 +47,12 @@ MANIFEST
 
 
 
-
 .DS_Store
 
 # Jupyter Notebook
 .ipynb_checkpoints
 
 .epg_data/*
+
+# uv
+.python-version

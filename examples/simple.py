@@ -1,49 +1,49 @@
 # -*- coding: utf-8 -*-
 from aiocron import crontab
-from aiocron import asyncio
+import asyncio
 import logging
 
-logging.basicConfig()
+logging.basicConfig(level=logging.DEBUG)
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 
-
-@crontab('* * * * * */3')
+@crontab("* * * * * */3", loop=loop)
 def mycron():
-    print('function')
+    print("function")
 
-
-@crontab('* * * * * */2', start=False)
+@crontab("* * * * * */2", start=False, loop=loop)
 def mycron2(i):
     if i == 2:
         raise ValueError(i)
-    return 'yielded function (%i)' % i
+    return f"yielded function ({i})"
 
-
-@asyncio.coroutine
-def main():
-    cron = crontab('* * * * * */2')
+async def main():
+    cron = crontab("* * * * * */2", loop=loop)
     for i in range(3):
         try:
-            yield from cron.next()
+            await cron.next()
         except Exception:
             pass
         else:
-            print('yielded (%i)' % i)
+            print(f"yielded ({i})")
 
     for i in range(3):
         try:
-            res = yield from mycron2.next(i)
+            res = await mycron2.next(i)
         except Exception as e:
             print(repr(e))
         else:
             print(res)
 
-
-loop.run_until_complete(main())
+if __name__ == "__main__":
+    try:
+        loop.run_until_complete(main())
+    finally:
+        loop.close()
 
 """
-Will print:
+Expected output (may vary slightly due to timing):
 
     yielded (0)
     function
@@ -53,5 +53,5 @@ Will print:
     yielded function (0)
     function
     yielded function (1)
-    yielded function (2)
+    ValueError(2)
 """

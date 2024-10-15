@@ -1,11 +1,8 @@
-graft docs
-prune docs/_build
-prune .github/
+include LICENSE *.rst *.cfg *.ini pyproject.toml uv.lock .coveragerc
 graft aiocron
 graft tests
-include Pipfile Pipfile.lock *.rst *.cfg *.ini LICENSE
-global-exclude *.pyc
-global-exclude __pycache__
-include .coveragerc
+graft docs
+prune docs/_build
+prune .github
 recursive-include examples *.py
-exclude .installed.cfg
+global-exclude *.pyc __pycache__

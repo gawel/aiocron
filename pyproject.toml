@@ -1,0 +1,69 @@
+[project]
+name = "aiocron"
+version = "1.9.dev0"
+description = "Crontabs for asyncio"
+readme = "README.rst"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Gael Pasgrimaud", email = "gael@gawel.org"},
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["crontab", "cron", "asyncio"]
+dependencies = [
+    "croniter>=3.0.3",
+    "tox>=4.21.1",
+    "tox-uv>=1.13.0",
+    "tzlocal>=5.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/gawel/aiocron/"
+
+[project.optional-dependencies]
+test = [
+    "coverage>=7.6.1",
+    "pytest>=8.3.3",
+    "pytest-cov>=5.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["aiocron"]
+
+
+[tool.pytest.ini_options]
+addopts = "--cov aiocron --cov-report term-missing"
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore:.*U.*mode is deprecated:DeprecationWarning",
+]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py{39,310,311,312}
+isolated_build = True
+
+[testenv]
+runner = uv-venv-lock-runner
+extras =
+    test
+commands =
+    pytest
+"""
