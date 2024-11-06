@@ -23,7 +23,7 @@ classifiers = [
 ]
 keywords = ["crontab", "cron", "asyncio"]
 dependencies = [
-    "croniter>=3.0.3",
+    "cronsim>=2.6",
     "tox>=4.21.1",
     "tox-uv>=1.13.0",
     "tzlocal>=5.2",

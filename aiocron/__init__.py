@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from croniter.croniter import croniter
+from cronsim import CronSim
 from datetime import datetime
 from functools import wraps, partial
 from tzlocal import get_localzone
@@ -38,7 +38,6 @@ class Cron(object):
         uuid=None,
         loop=None,
         tz=None,
-        croniter_kwargs=None,
     ):
         self.spec = spec
         if func is not None:
@@ -50,11 +49,10 @@ class Cron(object):
         self.cron = wrap_func(self.func)
         self.auto_start = start
         self.uuid = uuid if uuid is not None else uuid4()
-        self.handle = self.future = self.croniter = None
+        self.handle = self.future = self.cronsim = None
         self.loop = loop if loop is not None else asyncio.get_event_loop()
         if start and self.func is not null_callback:
             self.handle = self.loop.call_soon_threadsafe(self.start)
-        self.croniter_kwargs = croniter_kwargs or {}
 
     def start(self):
         """Start scheduling"""
@@ -66,7 +64,7 @@ class Cron(object):
         """Stop scheduling"""
         if self.handle is not None:
             self.handle.cancel()
-        self.handle = self.future = self.croniter = None
+        self.handle = self.future = self.cronsim = None
 
     async def next(self, *args):
         """yield from .next()"""
@@ -76,18 +74,16 @@ class Cron(object):
         return await self.future
 
     def initialize(self):
-        """Initialize croniter and related times"""
-        if self.croniter is None:
+        """Initialize cronsim and related times"""
+        if self.cronsim is None:
             self.time = time.time()
             self.datetime = datetime.now(self.tz)
             self.loop_time = self.loop.time()
-            self.croniter = croniter(
-                self.spec, start_time=self.datetime, **self.croniter_kwargs
-            )
+            self.cronsim = CronSim(self.spec, self.datetime)
 
     def get_next(self):
         """Return next iteration time related to loop time"""
-        return self.loop_time + (self.croniter.get_next(float) - self.time)
+        return self.loop_time + (next(self.cronsim).timestamp() - self.time)
 
     def call_next(self):
         """Set next hop in the loop. Call task"""
