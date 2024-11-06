@@ -24,6 +24,7 @@ classifiers = [
 keywords = ["crontab", "cron", "asyncio"]
 dependencies = [
     "cronsim>=2.6",
+    "python-dateutil>=2.9.0",
     "tox>=4.21.1",
     "tox-uv>=1.13.0",
     "tzlocal>=5.2",
