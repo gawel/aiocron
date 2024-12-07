@@ -1,24 +1,26 @@
 # -*- coding: utf-8 -*-
 from croniter.croniter import croniter
+import zoneinfo
 from datetime import datetime
 from functools import wraps, partial
 from tzlocal import get_localzone
-from uuid import uuid4
+from uuid import uuid4, UUID
 import time
 import asyncio
 import sys
 import inspect
+import typing as tp
 
 
-async def null_callback(*args):
+async def null_callback(*args: tp.Any) -> tuple[tp.Any, ...]:
     return args
 
 
-def wrap_func(func):
+def wrap_func(func: tp.Callable[..., tp.Union[tp.Any, tp.Awaitable[tp.Any]]]) -> tp.Callable[..., tp.Awaitable[tp.Any]]:
     """wrap in a coroutine"""
 
     @wraps(func)
-    async def wrapper(*args, **kwargs):
+    async def wrapper(*args: tp.Any, **kwargs: tp.Any) -> tp.Any:
         result = func(*args, **kwargs)
         if inspect.isawaitable(result):
             result = await result
@@ -30,16 +32,16 @@ def wrap_func(func):
 class Cron(object):
     def __init__(
         self,
-        spec,
-        func=None,
-        args=(),
-        kwargs=None,
-        start=False,
-        uuid=None,
-        loop=None,
-        tz=None,
-        croniter_kwargs=None,
-    ):
+        spec: str,
+        func: tp.Optional[tp.Callable[..., tp.Union[tp.Any, tp.Awaitable[tp.Any]]]] = None,
+        args: tuple[tp.Any, ...] = (),
+        kwargs: tp.Optional[tp.Mapping[str, tp.Any]] = None,
+        start: bool = False,
+        uuid: tp.Optional[UUID] = None,
+        loop: tp.Optional[asyncio.AbstractEventLoop] = None,
+        tz: tp.Optional[zoneinfo.ZoneInfo] = None,
+        croniter_kwargs: tp.Optional[tp.Mapping[str, tp.Any]] = None,
+    ) -> None:
         self.spec = spec
         if func is not None:
             kwargs = kwargs or {}
@@ -47,35 +49,37 @@ class Cron(object):
         else:
             self.func = null_callback
         self.tz = get_localzone() if tz is None else tz
-        self.cron = wrap_func(self.func)
+        self.cron: tp.Callable[..., tp.Awaitable[tp.Any]] = wrap_func(self.func)
         self.auto_start = start
         self.uuid = uuid if uuid is not None else uuid4()
-        self.handle = self.future = self.croniter = None
+        self.handle = None
+        self.future: tp.Optional[asyncio.Future] = None
+        self.croniter: tp.Optional[croniter] = None
         self.loop = loop if loop is not None else asyncio.get_event_loop()
         if start and self.func is not null_callback:
             self.handle = self.loop.call_soon_threadsafe(self.start)
         self.croniter_kwargs = croniter_kwargs or {}
 
-    def start(self):
+    def start(self) -> None:
         """Start scheduling"""
         self.stop()
         self.initialize()
         self.handle = self.loop.call_at(self.get_next(), self.call_next)
 
-    def stop(self):
+    def stop(self) -> None:
         """Stop scheduling"""
         if self.handle is not None:
             self.handle.cancel()
         self.handle = self.future = self.croniter = None
 
-    async def next(self, *args):
+    async def next(self, *args: tp.Any) -> tp.Any:
         """yield from .next()"""
         self.initialize()
         self.future = asyncio.Future(loop=self.loop)
         self.handle = self.loop.call_at(self.get_next(), self.call_func, *args)
         return await self.future
 
-    def initialize(self):
+    def initialize(self) -> None:
         """Initialize croniter and related times"""
         if self.croniter is None:
             self.time = time.time()
@@ -85,11 +89,11 @@ class Cron(object):
                 self.spec, start_time=self.datetime, **self.croniter_kwargs
             )
 
-    def get_next(self):
+    def get_next(self) -> float:
         """Return next iteration time related to loop time"""
         return self.loop_time + (self.croniter.get_next(float) - self.time)
 
-    def call_next(self):
+    def call_next(self) -> None:
         """Set next hop in the loop. Call task"""
         if self.handle is not None:
             self.handle.cancel()
@@ -97,7 +101,7 @@ class Cron(object):
         self.handle = self.loop.call_at(next_time, self.call_next)
         self.call_func()
 
-    def call_func(self, *args, **kwargs):
+    def call_func(self, *args: tp.Any, **kwargs: tp.Any) -> None:
         """Called. Take care of exceptions using gather"""
         """Check the version of python installed"""
         if sys.version_info[0:2] >= (3, 10):
@@ -109,7 +113,7 @@ class Cron(object):
                 self.cron(*args, **kwargs), loop=self.loop, return_exceptions=True
             ).add_done_callback(self.set_result)
 
-    def set_result(self, result):
+    def set_result(self, result: asyncio.Future) -> None:
         """Set future's result if needed (can be an exception).
         Else raise if needed."""
         result = result.result()[0]
@@ -122,7 +126,7 @@ class Cron(object):
         elif isinstance(result, Exception):
             raise result
 
-    def __call__(self, func):
+    def __call__(self, func: tp.Callable[..., tp.Awaitable[tp.Any]]) -> 'Cron':
         """Used as a decorator"""
         self.func = func
         self.cron = wrap_func(func)
@@ -130,14 +134,22 @@ class Cron(object):
             self.loop.call_soon_threadsafe(self.start)
         return self
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "{0.spec} {0.func}".format(self)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "<Cron {0.spec} {0.func}>".format(self)
 
 
-def crontab(spec, func=None, args=(), kwargs=None, start=True, loop=None, tz=None):
+def crontab(
+    spec: str,
+    func: tp.Optional[tp.Callable[..., tp.Union[tp.Any, tp.Awaitable[tp.Any]]]] = None,
+    args: tuple[tp.Any, ...] = (),
+    kwargs: tp.Optional[tp.Mapping[str, tp.Any]] = None,
+    start: bool = False,
+    loop: tp.Optional[asyncio.AbstractEventLoop] = None,
+    tz: tp.Optional[zoneinfo.ZoneInfo] = None,
+) -> Cron:
     return Cron(
         spec, func=func, args=args, kwargs=kwargs, start=start, loop=loop, tz=tz
     )
