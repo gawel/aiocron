@@ -18,10 +18,6 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-coverage = [
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
 test = [
     { name = "coverage" },
     { name = "pytest" },
@@ -32,9 +28,7 @@ test = [
 requires-dist = [
     { name = "coverage", marker = "extra == 'test'", specifier = ">=7.6.1" },
     { name = "croniter", specifier = ">=3.0.3" },
-    { name = "pytest", marker = "extra == 'coverage'", specifier = ">=8.3.3" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8.3.3" },
-    { name = "pytest-cov", marker = "extra == 'coverage'", specifier = ">=5.0.0" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=5.0.0" },
     { name = "tox", specifier = ">=4.21.1" },
     { name = "tox-uv", specifier = ">=1.13.0" },
