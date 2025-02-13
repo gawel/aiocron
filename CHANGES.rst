@@ -1,4 +1,4 @@
-2.0 (unreleased)
+2.0 (2025-02-14)
 ================
 
 - Use cronsim instead of croniter
