@@ -1,7 +1,9 @@
-1.9 (unreleased)
+2.0 (unreleased)
 ================
 
-- Nothing changed yet.
+- Use cronsim instead of croniter
+
+- Allow to pass kwargs to a cron function
 
 
 1.8 (2021-11-24)
