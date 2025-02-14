@@ -1,4 +1,4 @@
-2.1 (unreleased)
+2.1 (2025-02-14)
 ================
 
 - Remove test dependencies from dependencies
