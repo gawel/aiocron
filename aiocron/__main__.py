@@ -6,7 +6,7 @@ import subprocess
 import argparse
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.prog = "python -m aiocron"
     parser.add_argument(
