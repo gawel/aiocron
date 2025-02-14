@@ -1,7 +1,7 @@
 2.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Remove test dependencies from dependencies
 
 
 2.0 (2025-02-14)
