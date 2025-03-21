@@ -59,8 +59,11 @@ If you don't like the decorator magic you can set the function by yourself::
 
     >>> cron = crontab('0 * * * *', func=yourcoroutine, start=False)
 
-Notice that unlike standard unix crontab you can specify seconds at the 6th
-position.
-
-``aiocron`` use `croniter <https://pypi.python.org/pypi/croniter>`_. Refer to
+``aiocron`` use `cronsim <https://github.com/cuu508/cronsim>`_. Refer to
 it's documentation to know more about crontab format.
+
+From Dec 31, 2024, ``aiocron`` has switched from ``croniter`` to ``cronsim``
+for cron expression parsing (`PR #39 <https://github.com/gawel/aiocron/pull/39>`_). 
+Please ensure that your cron expressions are valid in ``cornsim``. For a comparison of 
+features between ``croniter`` and ``cronsim``, refer to 
+`cronsim documentation <https://github.com/cuu508/cronsim?tab=readme-ov-file#cron-expression-feature-matrix>`_.
