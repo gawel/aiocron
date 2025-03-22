@@ -64,6 +64,6 @@ it's documentation to know more about crontab format.
 
 From Dec 31, 2024, ``aiocron`` has switched from ``croniter`` to ``cronsim``
 for cron expression parsing (`PR #39 <https://github.com/gawel/aiocron/pull/39>`_). 
-Please ensure that your cron expressions are valid in ``cornsim``. For a comparison of 
+Please ensure that your cron expressions are valid in ``cronsim``. For a comparison of 
 features between ``croniter`` and ``cronsim``, refer to 
 `cronsim documentation <https://github.com/cuu508/cronsim?tab=readme-ov-file#cron-expression-feature-matrix>`_.
