@@ -11,7 +11,7 @@ aiocron - Crontabs for asyncio
 Usage
 =====
 
-``aiocron`` provide a decorator to run function at time::
+``aiocron`` provides a decorator to run function at time::
 
     >>> import aiocron
     >>> import asyncio
@@ -31,7 +31,7 @@ You can also use it as an object::
     >>> attime.start()
     >>> asyncio.get_event_loop().run_forever()
 
-Your function still be available at ``attime.func``
+Your function will still be available at ``attime.func``
 
 You can also await a crontab. In this case, your coroutine can accept
 arguments::
@@ -55,15 +55,15 @@ next hour::
 
     >>> await crontab('0 * * * *').next()
 
-If you don't like the decorator magic you can set the function by yourself::
+If you don't like the decorator magic, you can set the function by yourself::
 
     >>> cron = crontab('0 * * * *', func=yourcoroutine, start=False)
 
-``aiocron`` use `cronsim <https://github.com/cuu508/cronsim>`_. Refer to
-it's documentation to know more about crontab format.
+``aiocron`` uses `cronsim <https://github.com/cuu508/cronsim>`_. Refer to
+its documentation to know more about the crontab format.
 
-From Dec 31, 2024, ``aiocron`` has switched from ``croniter`` to ``cronsim``
+Since Dec 31, 2024, ``aiocron`` has switched from ``croniter`` to ``cronsim``
 for cron expression parsing (`PR #39 <https://github.com/gawel/aiocron/pull/39>`_). 
 Please ensure that your cron expressions are valid in ``cronsim``. For a comparison of 
-features between ``croniter`` and ``cronsim``, refer to 
+features between ``croniter`` and ``cronsim``, refer to the
 `cronsim documentation <https://github.com/cuu508/cronsim?tab=readme-ov-file#cron-expression-feature-matrix>`_.
